@@ -70,8 +70,8 @@ It's from *The Shockwave Rider* by John Brunner.
 
 ## Files
 
-* README - this file
-* INSTALL - installation instructions
+* README.md - this file
+* INSTALL.md - installation instructions
 * LICENSE - MIT License
 * NOTES - some notes I made while writing the project
 * www/ - directory containing the code of the project
