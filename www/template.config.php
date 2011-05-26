@@ -10,10 +10,8 @@ $c_mysql_db = '4gh'; #name of the database
 $c_mysql_prefix = '4gh_'; #prefix for the tables (in case you're sharing a database).  Note that the prefix includes the underscore.
 
 
-//this is the string that goes in front of the token
-//I could work it out from the env vars, but on reflection
-//I'd rather always hand out the same thing regardless
-//of, for example, whether they put in the www. etc
+//tells shortnar where it is on the web.  Used for generating internal links and short URLs.
+// NOTE: there must be a trailing slash.
 $c_shorturl_prefix = 'http://4gh.es/';
 
 //how many characters in the token generated for the short URL
@@ -46,4 +44,4 @@ $c_max_tokencreate_attempts = 100;
 //urls that don't start with one of these are echo'd rather than linked
 $c_valid_protocols = array("http://", "https://", "ftp://");
 
-$c_language = 'es';
+$c_language = 'en';

@@ -125,3 +125,12 @@ still to do:
 http://en.wikipedia.org/wiki/Comparison_of_open_source_licences
 http://en.wikipedia.org/wiki/MIT_License
 http://www.opensource.org/licenses/mit-license.html
+
+2011-05-26 14:13:37 
+	removed $c_shorturl_prefix justification from config:
+//I could work it out from the env vars, but on reflection
+//I'd rather always hand out the same thing regardless
+//of, for example, whether they put in the www. etc
+$c_shorturl_prefix = 'http://4gh.es/';
+
+I'll put it back if anyone questions it.
