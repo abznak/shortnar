@@ -1,0 +1,127 @@
+2010-09-06 12:04:36 
+I've decided to write a URL shortener.  Ostensibly because the best free URL
+Shortening software I found with 5 minutes of searching included 3822 lines of
+php and I think I could get the features I want in under 100 lines and 3 hours.  
+Really of course I'm just doing it to show off.
+
+
+2010-09-06 12:15:06 
+creating database [note, that isn't actually my password]:
+
+INSERT INTO `mysql`.`user` SET `Host`='%', `User`='4gh', `Password`=PASSWORD('yo8Boo8i'), `max_questions`=0, `max_updates`=0, `max_connections`=0, `max_user_connections`=0, `ssl_cipher`='', `x509_issuer`='', `x509_subject`='';
+/* Applying privilege changes... */
+/* Applying privilege to account 4gh@% for All databases. */
+UPDATE `mysql`.`user` SET `Select_priv`='N', `Insert_priv`='N', `Update_priv`='N', `Delete_priv`='N', `Create_priv`='N', `Drop_priv`='N', `Grant_priv`='N', `References_priv`='N', `Index_priv`='N', `Alter_priv`='N', `Create_tmp_table_priv`='N', `Lock_tables_priv`='N', `Execute_priv`='N', `Create_view_priv`='N', `Show_view_priv`='N', `Create_routine_priv`='N', `Alter_routine_priv`='N' WHERE `User`='4gh' AND (`Host`='%' OR `Host`='');
+DELETE FROM `mysql`.`db` WHERE `User`='4gh' AND (`Host`='%' OR `Host`='') AND `Db`='%';
+INSERT IGNORE INTO `mysql`.`db` SET `Host`='%', `User`='4gh', `Db`='%', `Select_priv`='Y', `Insert_priv`='N', `Update_priv`='N', `Delete_priv`='N', `Create_priv`='N', `Drop_priv`='N', `Grant_priv`='N', `References_priv`='N', `Index_priv`='N', `Alter_priv`='N', `Create_tmp_table_priv`='N', `Lock_tables_priv`='N', `Execute_priv`='N', `Create_view_priv`='N', `Show_view_priv`='N', `Create_routine_priv`='N', `Alter_routine_priv`='N';
+/* Applying privilege to account 4gh@% for Column: 4gh.%.%. */
+DELETE FROM `mysql`.`columns_priv` WHERE `User`='4gh' AND (`Host`='%' OR `Host`='') AND `Db`='4gh' AND `Table_name`='%' AND `Column_name`='%';
+INSERT IGNORE INTO `mysql`.`columns_priv` SET `Host`='%', `User`='4gh', `Db`='4gh', `Table_name`='%', `Column_name`='%', `column_priv`='Select,Insert,Update,References';
+FLUSH PRIVILEGES;
+
+2010-09-06 12:20:42 
+created urls table.
+ - in heidisql when creating a table you can find auto_increment in the 'default' field.
+
+2010-09-06 12:45:17 
+	started to remember how much code goes into handing exceptions, when you
+don't have a library to handle it for you.  I think I could still make my 100
+line target if I was prepared to sacrifice exception handling:
+   9    9  115 add.php
+   5   13  117 config.php
+   2    2   16 footer.php
+   7   23  145 global.php
+   2    2   14 header.php
+  10   14  171 index.php
+  55  151 1203 lib.php
+   6    7   70 templates.php
+  96  221 1851 total
+but apparently I'm not.
+
+2010-09-06 12:49:03 
+	 while : ; do sleep 60; echo -n `date`; svn ci -m"autogo"; done
+
+[I don't usually do that, but I thought the minute by minute evolution of the
+code might be interesting in this case.  Also, see note below about missing "svn
+add"]
+
+2010-09-06 13:03:51 
+	moved form from index.php to add.php
+
+2010-09-06 13:25:18 
+	working. not pretty or short, but storing and retrieving URLs.
+  34   63  561 add.php
+  14   61  462 config.php
+   2    2   16 footer.php
+   7   23  145 global.php
+   2    2   14 header.php
+  24   49  414 index.php
+  96  262 2094 lib.php
+   6    7   70 templates.php
+ 185  469 3776 total
+
+2010-09-06 13:27:33 
+	creating rewrite rule,
+	http://www.workingwith.me.uk/articles/scripting/mod_rewrite
+
+	first example is almost perfect:
+RewriteEngine on
+RewriteRule ^page/([^/\.]+)/?$ index.php?page=$1 [L]
+	I'm using:
+RewriteEngine on
+RewriteRule ^([^/\.]+)/?$ index.php?token=$1 [L]
+
+2010-09-06 13:30:20 
+	now working AND short
+still to do: 
+	- better random strings
+	- handle collisions
+
+2010-09-06 13:32:33 
+	taking a break
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+2010-09-06 14:37:57 
+	continuing
+
+2010-09-06 14:55:19 
+	working with decent random tokens (46 symbols)
+
+2010-09-06 15:11:21 
+	forgot to make tokens column binary :( 
+	(case sensitive)
+	ALTER TABLE `urls` CHANGE COLUMN `token` `token` VARchar(255) binary NOT NULL AFTER `id`;
+
+2010-09-06 15:20:48 
+	urls as GET params are realllly ugly, made post an option
+
+2010-09-06 15:32:31 
+	now only forwarding http, https and ftp links.  others are just printed as text
+
+2010-09-06 15:40:59 
+	looking good. not ready to give it to the world, but I will show it to someone who will try to break it.
+
+2010-09-06 15:49:19 
+	... but first: added some tests for mysql restrictions
+
+2010-09-06 15:57:11 
+	next time I do the "while : ; svn ci ..." gag, remember "svn add *.php" too
+
+2010-09-06 16:11:11
+	hmm, basically done.  could use some more through testing, though.   Ha, about 3hrs.
+
+  42   78  679 add.php
+  39  149 1001 config.php
+   2    2   16 footer.php
+   7   23  145 global.php
+   2    2   14 header.php
+  29   60  513 index.php
+ 141  425 3279 lib.php
+   6    7   70 templates.php
+  45  118 1030 test.php
+ 313  864 6747 total
+
+2011-05-23 15:52:02 
+	finding a license:
+http://en.wikipedia.org/wiki/Comparison_of_open_source_licences
+http://en.wikipedia.org/wiki/MIT_License
+http://www.opensource.org/licenses/mit-license.html
