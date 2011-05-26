@@ -36,7 +36,7 @@ See the `INSTALL` file for installation instructions
 
 ## Example
 
-Take a look at <http://4gh.es> and <http://4gh.es/5P88x> to see Shortnar in action.
+Take a look at <http://4gh.es> and <http://4gh.es/mbZXc> see Shortnar in action.
 
 ## License
 
