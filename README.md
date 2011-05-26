@@ -3,6 +3,7 @@ Shortnar is a URL shortener that aims to have very little code.
 
 ## Why?
 From my notes on the project:
+
 > I've decided to write a URL shortener.  Ostensibly because the best free URL
 > Shortening software I found with 5 minutes of searching included 3822 lines of
 > PHP and I think I could get the features I want in under 100 lines and 3 hours.
@@ -63,7 +64,7 @@ Features I might consider adding:
 
 It seemed polite to have the site in Spanish since I was using Spain's TLD.
 
-### Where does the `4gh` in the examples come from?
+### Where does the 4gh in the examples come from?
 
 It's from *The Shockwave Rider* by John Brunner.
 
