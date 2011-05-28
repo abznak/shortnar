@@ -71,7 +71,7 @@ function fail($str) {
 	$err = mysql_error();
 
 	//log a detailed error
-	error_log(date("c") . "  fail in 4gh - $str - $err\n");
+	error_log(date("c") . "  fail in shortnar - $str - $err\n");
 	print $str;
 	exit();
 }
